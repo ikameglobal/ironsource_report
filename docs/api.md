@@ -1,1 +1,1 @@
-::: ironsource_report.example
+::: ironsource_report.ironsource_user_ad_revenue_reporting_api

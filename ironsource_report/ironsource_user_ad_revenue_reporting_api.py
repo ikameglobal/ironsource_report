@@ -5,7 +5,6 @@ from pandas import DataFrame
 
 from applovin_report.utils.datetime_utils import day_ago
 from applovin_report.utils.logging_utils import logging_basic_config
-from
 from requests.adapters import HTTPAdapter, Retry
 
 logging_basic_config()
