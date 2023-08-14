@@ -3,7 +3,7 @@ import pandas as pd
 from pandas import DataFrame
 
 from ironsource_report.utils.logging_utils import logging_basic_config
-from ironsource_api import IronSourceClient
+from ironsource_report.ironsource_api import IronSourceClient
 
 logging_basic_config()
 STATUS_RETRIES = (500, 502, 503, 504)
