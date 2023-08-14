@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-"""Tests for `<package-name-underscore>` package."""
+"""Tests for `ironsource_report` package."""
 # pylint: disable=redefined-outer-name
 
 import os
 import pytest
 
-from <package-name-underscore> import SampleClass
+from ironsource_report import SampleClass
 
 
 @pytest.fixture

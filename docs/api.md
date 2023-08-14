@@ -1,1 +1,1 @@
-::: <package-name-underscore>.example
+::: ironsource_report.example
