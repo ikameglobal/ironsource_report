@@ -5,7 +5,7 @@
 import os
 import pytest
 
-from ironsource_report import SampleClass
+from ironsource_report import AdRevenueMeasurements
 
 
 @pytest.fixture
@@ -16,5 +16,5 @@ def api_key():
 
 
 def test_report(api_key):
-    report = SampleClass(api_key=api_key)
+    report = AdRevenueMeasurements(api_key=api_key)
     assert report is not None
