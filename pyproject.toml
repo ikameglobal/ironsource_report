@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "ironsource_report"
-version = "0.2.0"
+version = "0.2.1"
 homepage = "https://github.com/ikameglobal/ironsource_report"
 description = "This is library use to interactive with Ironsouce APIs"
 authors = ["ikameglobal <mungvt@ikameglobal.com>"]
