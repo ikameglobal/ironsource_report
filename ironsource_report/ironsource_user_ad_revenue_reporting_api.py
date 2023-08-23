@@ -1,4 +1,6 @@
 import logging
+from urllib.error import HTTPError
+
 import pandas as pd
 from pandas import DataFrame
 
@@ -68,7 +70,10 @@ class AdRevenueMeasurements(IronSourceClient):
         if response.status_code == 200:
             report_file_urls = response.json()['urls']
             logging.info('Found {} report file(s)'.format(len(report_file_urls)))
-            report_dfs = list(map(self._handle_report_file, report_file_urls))
+            report_dfs = list(filter(
+                lambda df: not df.empty,
+                map(self._handle_report_file, report_file_urls))
+            )
             # Concat DFs
             result = pd.concat(report_dfs).reset_index().drop(columns=['index'])
             return result
@@ -78,18 +83,17 @@ class AdRevenueMeasurements(IronSourceClient):
 
     @staticmethod
     def _handle_report_file(url: str):
-        result = pd.read_csv(url, compression='gzip', dtype={
-            'advertising_id': str,
-            'ad_network': str,
-            'revenue': str
-        })  # Read report to DF
         try:
-            short_url = url.split('.csv')[0]
-        except IndexError:
-            short_url = url
-
-        if result.empty:
-            logging.warning(f"Not found data in report file at url: {short_url}.")
-        else:
-            logging.info(f"Collected successful ad revenue report file at url: {url}.")
-        return result
+            result = pd.read_csv(url, compression='gzip', dtype={
+                'advertising_id': str,
+                'ad_network': str,
+                'revenue': str
+            })  # Read report to DF
+            if result.empty:
+                logging.warning(f"Not found data in report file url.")
+            else:
+                logging.info(f"Collected successful ad revenue report file url.")
+            return result
+        except HTTPError as e:
+            logging.warning(f"Can not read csv file from url cause: {e}")
+            return pd.DataFrame()

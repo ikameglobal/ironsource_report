@@ -110,3 +110,6 @@ site/
 # vscode extension - local history
 .history/
 .idea/
+
+# dir for local_dev files
+/local_dev

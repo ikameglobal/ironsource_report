@@ -84,7 +84,7 @@ class ApplicationAPI(IronSourceClient):
                     continue
 
                 app_dict = {
-                    'appKey': app['appKey'] if 'appKey' in app else '',
+                    'app_key': app['appKey'] if 'appKey' in app else '',
                     'platform': app['platform'] if 'platform' in app else '',
                     'app_package_name': app_package_name
                 }
