@@ -6,9 +6,9 @@ the [Reporting API](https://google.com).
 ## Get report
 
 ```python
-from ironsource_report import SampleClass
+from ironsource_report import AdRevenueMeasurements
 
-report = SampleClass(api_key="your_api_key")
+report = AdRevenueMeasurements(api_credential={})
 result = report.get_report()
 print(result)
 ```
