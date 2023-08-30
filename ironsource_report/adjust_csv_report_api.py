@@ -21,7 +21,10 @@ class CSVReport(AdjustClient):
 
     def __init__(self, api_key: str,
                  status_retries: list[int] = STATUS_RETRIES,
-                 max_retries=5, retry_delay=1):
+                 max_retries=5, retry_delay=1,
+                 mute_log: bool = False):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.ERROR if mute_log else logging.INFO)
         """
         Args:
             api_key: API key to use for the report
@@ -56,12 +59,14 @@ class CSVReport(AdjustClient):
         Doc Author:
             mungvt@ikameglobal.com
         """
-        logging.info("Start")
         response = self.session.get(url=self.API_CSV_REPORT, params=params, headers=self._api_headers)
         if response.status_code == 200:
             adjust_report_df = pd.read_csv(io.StringIO(response.text))
-            logging.info(f'Found report has {len(adjust_report_df)} rows.')
+            self.logger.info(f'Found report has {len(adjust_report_df)} rows.')
             return adjust_report_df
+        elif response.status_code == 204:
+            self.logger.warning(f'No content.')
+            return pd.DataFrame()
         else:
-            logging.warning(f'Not found report due to : {response.text}. Skipped it.')
+            self.logger.warning(f'[{response.status_code}] Not found report due to : {response.json()}. Skipped it.')
             return pd.DataFrame()

@@ -113,3 +113,4 @@ site/
 
 # dir for local_dev files
 /local_dev
+/ironsource_report/data
