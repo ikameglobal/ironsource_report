@@ -61,7 +61,7 @@ class CSVReport(AdjustClient):
             mungvt@ikameglobal.com
         """
         response = self.session.get(url=self.API_CSV_REPORT, params=params, headers=self._api_headers,
-                                    timout=self.timeout)
+                                    timeout=self.timeout)
         if response.status_code == 200:
             adjust_report_df = pd.read_csv(io.StringIO(response.text))
             self.logger.info(f'Found report has {len(adjust_report_df)} rows.')
