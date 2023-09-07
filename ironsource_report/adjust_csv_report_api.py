@@ -22,7 +22,7 @@ class CSVReport(AdjustClient):
     def __init__(self, api_key: str,
                  status_retries: list[int] = STATUS_RETRIES,
                  max_retries=5, retry_delay=1,
-                 mute_log: bool = False):
+                 mute_log: bool = False, timeout: int = 600):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.logger.setLevel(logging.ERROR if mute_log else logging.INFO)
         """
@@ -40,6 +40,7 @@ class CSVReport(AdjustClient):
         """
         super().__init__(api_key=api_key, status_retries=status_retries, max_retries=max_retries,
                          retry_delay=retry_delay)
+        self.timeout = timeout
 
     def get_report(
         self,
@@ -59,7 +60,8 @@ class CSVReport(AdjustClient):
         Doc Author:
             mungvt@ikameglobal.com
         """
-        response = self.session.get(url=self.API_CSV_REPORT, params=params, headers=self._api_headers)
+        response = self.session.get(url=self.API_CSV_REPORT, params=params, headers=self._api_headers,
+                                    timout=self.timeout)
         if response.status_code == 200:
             adjust_report_df = pd.read_csv(io.StringIO(response.text))
             self.logger.info(f'Found report has {len(adjust_report_df)} rows.')
